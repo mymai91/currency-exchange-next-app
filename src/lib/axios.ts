@@ -32,20 +32,20 @@ axiosClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Log request in development
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🚀 API Request:', {
-        method: config.method?.toUpperCase(),
-        url: config.url,
-        params: config.params,
-        data: config.data,
-      });
-    }
+    // // Log request in development
+    // if (process.env.NODE_ENV === 'development') {
+    //   console.log('🚀 API Request:', {
+    //     method: config.method?.toUpperCase(),
+    //     url: config.url,
+    //     params: config.params,
+    //     data: config.data,
+    //   });
+    // }
 
     return config;
   },
   (error: AxiosError) => {
-    console.error('❌ Request Error:', error);
+    console.error('Request Error:', error);
     return Promise.reject(error);
   }
 );
@@ -54,13 +54,13 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response: AxiosResponse) => {
     // Log response in development
-    if (process.env.NODE_ENV === 'development') {
-      console.log('✅ API Response:', {
-        status: response.status,
-        url: response.config.url,
-        data: response.data,
-      });
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   console.log('✅ API Response:', {
+    //     status: response.status,
+    //     url: response.config.url,
+    //     data: response.data,
+    //   });
+    // }
 
     return response;
   },
@@ -116,7 +116,6 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 
 // Helper function to handle API errors
 export const handleApiError = (error: unknown): ApiError => {
