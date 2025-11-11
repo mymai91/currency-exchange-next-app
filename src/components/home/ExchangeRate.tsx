@@ -22,16 +22,15 @@ export function ExchangeRate() {
 
   const { baseCurrency, rates } = data!;
 
-
   return (
 
-    <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden" >
-      <div className="grid grid-cols-3 gap-4 p-4 font-semibold text-gray-700">
+    <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden" >
+      <div className="grid grid-cols-3 gap-4 px-6 py-4 font-medium text-gray-600 text-sm bg-gray-50 border-b border-gray-200">
         <div>Currency</div>
         <div>Exchange Rate</div>
-        <div>{isRefetching ? 'Updating...' : ' '}</div>
+        <div className="text-right">{isRefetching ? 'Updating...' : ' '}</div>
       </div>
-      <div aria-label="base-amount" className="grid grid-cols-3 gap-4 bg-gray-800 text-white p-4 font-semibold">
+      <div aria-label="base-amount" className="grid grid-cols-3 gap-4 bg-[#1e2a5e] text-white px-6 py-5 font-semibold text-lg">
         <div>{baseCurrency?.code}</div>
         <div>1</div>
       </div>
@@ -41,12 +40,12 @@ export function ExchangeRate() {
             aria-label="rates-amount"
             key={rateItem.id}
             className={clsx(
-              "grid grid-cols-3 gap-4 p-4 text-gray-700",
-              index % 2 === 0 ? "bg-white" : "bg-gray-100"
+              "grid grid-cols-3 gap-4 px-6 py-5 text-gray-800 hover:bg-gray-50 transition-colors",
+              index % 2 === 0 ? "bg-white" : "bg-gray-50"
             )}
           >
-            <div>{rateItem.targetCurrency.code}</div>
-            <div>{rateItem.rate}</div>
+            <div className="font-medium">{rateItem.targetCurrency.code}</div>
+            <div className="font-semibold">{rateItem.rate}</div>
           </div>
         ))
       }
