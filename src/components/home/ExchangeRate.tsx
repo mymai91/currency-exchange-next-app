@@ -2,6 +2,8 @@
 
 import clsx from 'clsx';
 import { useGetRates } from "./hooks/useGetRates"
+import { ExchangeRateSkeleton } from './ExchangeRateSkeleton';
+// import { Loading } from '../ui/Loading';
 
 export function ExchangeRate() {
   const { isLoading, isError, data, isRefetching } = useGetRates({
@@ -13,14 +15,19 @@ export function ExchangeRate() {
     });
 
   if (isError) {
-    return <div className="text-red-500">Error loading exchange rates.</div>;
+    return <div className="text-red-500">Error loading exchange rates...</div>;
   }
 
   if (isLoading) {
-    return <div> Loading exchange rates</div>
+    // return <Loading />;
+    return <ExchangeRateSkeleton rows={2} />;
   }
 
-  const { baseCurrency, rates } = data!;
+  if (!data) {
+    return <div className="text-red-500">Error loading exchange rates.</div>;
+  }
+
+  const { baseCurrency, rates } = data;
 
   return (
 
