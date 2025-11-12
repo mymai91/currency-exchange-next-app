@@ -2,7 +2,7 @@ import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { axiosClient } from "./axios";
 
 export const api = {
-    get: <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
+    get: <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
         return axiosClient.get<T>(url, config);
     },
 

@@ -94,3 +94,58 @@ currency-exchange-next-app/
 │
 ├── .env.local                        # Environment variables
 └── next.config.ts
+
+
+### Why use named function
+
+should use **export function Header()**
+
+```
+// ❌ Arrow Function - Anonymous trong stack trace
+const Header = () => {
+  throw new Error('Test error');
+  return <div>Header</div>;
+};
+
+// Error stack trace:
+// Error: Test error
+//   at _default (Header.tsx:2)  ← "Anonymous" hoặc "_default"
+//   ...
+
+// ✅ Named Function - Rõ ràng trong stack trace
+export function Header() {
+  throw new Error('Test error');
+  return <div>Header</div>;
+}
+
+// Error stack trace:
+// Error: Test error
+//   at Header (Header.tsx:2)  ← Tên component rõ ràng!
+```
+
+How to use
+
+```
+// ✅ BEST - Explicit children type
+interface HeaderProps {
+  title: string;
+  children?: React.ReactNode; // Explicit children
+}
+
+export function Header({ title, children }: HeaderProps) {
+  return (
+    <header className="bg-blue-600 text-white p-4">
+      <h1>{title}</h1>
+      {children}
+    </header>
+  );
+}
+
+// Usage:
+<Header title="Currency Exchange">
+  <nav>
+    <a href="/convert">Convert</a>
+    <a href="/history">History</a>
+  </nav>
+</Header>
+```
