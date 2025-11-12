@@ -1,5 +1,4 @@
-import { HeroSection } from '@/components/home';
-import { ExchangeRate } from '@/components/home/ExchangeRate';
+import { HeroSection, ExchangeRate } from '@/components/home';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { getRates } from '@/components/home/api/rate.api';
 

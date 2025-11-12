@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import { useGetRates } from "./hooks/useGetRates"
 import { ExchangeRateSkeleton } from './ExchangeRateSkeleton';
+
 // import { Loading } from '../ui/Loading';
 
 export function ExchangeRate() {
