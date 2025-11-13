@@ -3,3 +3,9 @@ export interface Entity {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface CurrencyEntity {
+  code: string;
+  name: string;
+  symbol: string;
+}

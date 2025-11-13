@@ -31,14 +31,12 @@ export function CurrencyConvert() {
     }
   })
 
-  const { control } = methods
+  const { control, handleSubmit } = methods
 
-  // const fromCurrency = watch('fromCurrency')
-  // const toCurrency = watch('toCurrency')
 
-  // const onSubmit = (data: CurrencyConvertForm) => {
-  //   console.log('data', data)
-  // }
+  const onSubmit = (data: CurrencyConvertForm) => {
+    console.log('data', data)
+  }
 
   if (isLoading) {
     return (
@@ -68,7 +66,7 @@ export function CurrencyConvert() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4">
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="p-4 md:p-8">
+        <form className="p-4 md:p-8" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
             <div className="flex-shrink-0 md:w-64">
               <label className="block text-sm font-medium text-gray-600 mb-2">
@@ -116,11 +114,11 @@ export function CurrencyConvert() {
             </div>
           </div>
 
-          <button className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-lg">
+          <button type="submit" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-lg">
             Convert
           </button>
-        </div>
+        </form>
       </div>
-    </div>
+    </div >
   )
 }
