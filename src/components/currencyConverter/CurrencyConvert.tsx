@@ -2,25 +2,27 @@
 
 import { Spinner } from "../ui/Spinner"
 import { useGetListCurrency } from "./hooks/useGetListCurrency"
-import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, Controller } from 'react-hook-form'
 import { CurrencySelector } from "./CurrencySelector"
 import { ArrowRightLeft } from "lucide-react"
+import { useGetConvertCurrency } from "./hooks/useGetConvertCurrency"
+import { useState } from "react"
+import {
+  currencyConvertSchema,
+  CurrencyConvertForm,
+  CurrencyConvertParams
+} from "./types"
 
-const currencyConvertSchema = z.object({
-  amount: z.string().min(1, 'Amount is required').refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: 'Amount must be a positive number'
-  }),
-  fromCurrency: z.string().min(1, 'From currency is required'),
-  toCurrency: z.string().min(1, 'To currency is required')
-
-})
-
-type CurrencyConvertForm = z.infer<typeof currencyConvertSchema>
 export function CurrencyConvert() {
 
   const { data, isLoading, error } = useGetListCurrency()
+
+  const [convertParams, setConvertParams] = useState<CurrencyConvertParams | null>(null)
+
+  const { data: convertResult, isLoading: isConverting, error: convertError } = useGetConvertCurrency(
+    convertParams || { from: '', to: '', amount: '' }
+  )
 
   const methods = useForm<CurrencyConvertForm>({
     resolver: zodResolver(currencyConvertSchema),
@@ -35,7 +37,12 @@ export function CurrencyConvert() {
 
 
   const onSubmit = (data: CurrencyConvertForm) => {
-    console.log('data', data)
+    const { fromCurrency, toCurrency, amount } = data
+    setConvertParams({
+      from: fromCurrency,
+      to: toCurrency,
+      amount: amount
+    })
   }
 
   if (isLoading) {
@@ -114,10 +121,45 @@ export function CurrencyConvert() {
             </div>
           </div>
 
-          <button type="submit" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-lg">
-            Convert
+          <button
+            type="submit"
+            className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isConverting}
+          >
+            {isConverting ? 'Converting...' : 'Convert'}
           </button>
         </form>
+
+        {convertResult && (
+          <div className="border-t border-gray-200 p-4 md:p-8 bg-gray-50">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">
+                  {convertResult.originalAmount} {convertResult.fromCurrency.code}
+                </p>
+                <p className="text-3xl md:text-4xl font-bold text-gray-800">
+                  {convertResult.convertedAmount.toFixed(2)} {convertResult.toCurrency.code}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm text-gray-600">Exchange Rate</p>
+                <p className="text-lg font-semibold text-gray-800">
+                  1 {convertResult.fromCurrency.code} = {convertResult.exchangeRate} {convertResult.toCurrency.code}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+
+        {convertError && (
+          <div className="border-t border-gray-200 p-4 md:p-8">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              <p className="font-semibold">Error converting currency</p>
+              <p className="text-sm mt-1">{convertError.message}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div >
   )

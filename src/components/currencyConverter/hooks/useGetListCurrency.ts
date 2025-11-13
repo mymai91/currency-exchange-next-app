@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { CurrencyItemResponse, getSupportCurrencies } from "../api/currency.api";
+import { getSupportCurrencies } from "../api/currency.api";
+import { CurrencyItemResponse } from "../types";
 
 export const useGetListCurrency = (): UseQueryResult<CurrencyItemResponse[]> => {
   return useQuery({
