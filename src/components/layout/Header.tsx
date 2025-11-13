@@ -6,7 +6,7 @@ export function Header() {
     <header>
       <h1>Currency Exchange</h1>
       <Link href="/">Home</Link>
-      <Link href="/currencyconverter">Currency Converter</Link>
+      <Link href="/currency-converter">Currency Converter</Link>
     </header>
   )
 }
